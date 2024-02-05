@@ -2,6 +2,8 @@
   vars:
     root_dir: /usr/share/nginx/html
     nginx_port: 80
+    greeting: "This is server {{ server_name }}!"
+    title: "{{ greeting | upper }}"
   tasks:
     - name: install nginx
       ansible.builtin.apt:

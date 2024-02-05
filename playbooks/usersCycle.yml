@@ -1,0 +1,38 @@
+- hosts: all
+  vars:
+    users:
+      - jaime 
+      - sansa
+      - robert
+  tasks:
+    - name: create Group
+      ansible.builtin.group:
+        name: wheel
+        state: present
+      become: yes
+
+    - name: Users list create
+      ansible.builtin.user:
+        name: "{{ item }}"
+        groups: "wheel"
+        append: yes
+      loop: "{{ users }}"
+      become: yes
+
+    - name: gitconfig file copy
+      ansible.builtin.template:
+        src: files/.gitconfig
+        dest: "/home/{{ item }}/.gitconfig"
+      loop: "{{users}}"
+      become: yes
+   
+    - name: set ssh for each User
+      ansible.posix.authorized_key:
+        user: "{{item}}"
+        state: present
+        key: "{{ lookup('file', 'files/publickey.pub') }}"
+        path: "/home/{{ item }}/.ssh/authorized_keys"
+        manage_dir: false
+      loop: "{{users}}"
+      become: yes
+      become_method: sudo
