@@ -1,0 +1,27 @@
+- hosts: servers
+
+  tasks:
+  - name: cache update
+    ansible.builtin.apt:
+      update_cache: yes
+    become: yes
+    when: ansible_os_family == "Ubuntu"
+
+  - name: Users create
+    ansible.builtin.user:
+      name: useruser
+    become: yes
+
+  - name: git install
+    ansible.builtin.yum:
+      name: git
+      state: present
+    become: yes
+    when: ansible_facts['distribution'] == "CentOS"
+  
+  - name: git install
+    ansible.builtin.apt:
+      name: git
+      state: present
+    become: yes
+    when: ansible_facts['distribution'] == "Ubuntu"

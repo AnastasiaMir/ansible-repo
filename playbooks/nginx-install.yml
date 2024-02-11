@@ -4,12 +4,25 @@
     nginx_port: 80
     greeting: "This is server {{ server_name }}!"
     title: "{{ greeting | upper }}"
+    date: "{{ ansible_facts['date_time']['date'] }}"
   tasks:
     - name: install nginx
       ansible.builtin.apt:
         name: nginx
         state: latest
       become: yes
+
+    - name: install cowsay
+      ansible.builtin.apt:
+        name: cowsay
+        state: present
+      become: yes
+
+    - name: run cowsay
+      ansible.builtin.command: cowsay "This is server {{ server_name }} !"
+      register: cowsay_result
+
+    
 
     - name: html nginx page
       ansible.builtin.template:
