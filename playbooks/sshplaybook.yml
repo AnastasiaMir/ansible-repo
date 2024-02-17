@@ -1,0 +1,14 @@
+- hosts: all
+  
+  tasks: 
+  - name: cache update
+    ansible.builtin.apt:
+      update_cache: yes
+    become: yes
+  - name: user create
+    ansible.builtin.user:
+      name: mynewuser
+    become: yes  
+
+
+  

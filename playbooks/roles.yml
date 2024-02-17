@@ -1,0 +1,21 @@
+- hosts: all
+  
+  roles:
+  - setup_role
+  - geerlingguy.postgresql
+  - geerlingguy.nodejs
+  - geerlingguy.git
+  become: yes
+
+  tasks: 
+  - name: cache update
+    ansible.builtin.apt:
+      update_cache: yes
+    become: yes
+  - name: user create
+    ansible.builtin.user:
+      name: tirion
+    become: yes  
+
+
+  

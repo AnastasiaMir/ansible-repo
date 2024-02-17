@@ -1,0 +1,6 @@
+roles:
+  - geerlingguy.nodejs
+  - geerlingguy.postgresql
+  - geerlingguy.git
+collections:
+  - ansible.posix.authorized_key
